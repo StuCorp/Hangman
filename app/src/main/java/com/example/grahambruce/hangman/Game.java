@@ -30,7 +30,8 @@ public class Game {
     }
 
     public void askPlayerforWord() {
-        word = "Godzilla";
+        System.out.println(String.format("%s, give me a word!", player2.getName()));
+        word = UserInput.getUserWord();
         this.hiddenWord = new ArrayList<>();
         for (int i = 0; i < word.length(); i++) {
             hiddenWord.add('*');
@@ -48,6 +49,8 @@ public class Game {
     public void run() {
         while (keepPlaying) {
             askPlayerforWord();
+            totalGuesses = "";
+            clearScreen();
             guessLoop();
             checkForDeath();
             switchPlayers();
@@ -55,23 +58,19 @@ public class Game {
         }
     }
 
-    public void keepGoing() {
-        keepPlaying = userInputKeepingGoing();
-    }
-
-    public boolean userInputKeepingGoing() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Keep going? yes or no");
-        if (sc.nextLine().equals("yes")) {
-            System.out.println("yes");
-            return true;
-
-        } else {
-            System.out.println("no");
-
-            return false;
+    private void clearScreen() {
+        for (int manyTime = 0; manyTime < 100; manyTime++) {
+            for (int times = 0; times < 50; times++) {
+                System.out.print('*');
+            }
+            System.out.println();
         }
     }
+
+    public void keepGoing() {
+        keepPlaying = UserInput.getUserBoolean();
+    }
+
 
     public void switchPlayers() {
         Collections.rotate(players, 1);
@@ -89,20 +88,22 @@ public class Game {
         }
     }
 
-    private char getGuess() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter a guess");
-
-        return sc.nextLine().charAt(0);
-    }
+//    private char getGuess() {
+//        Scanner sc = new Scanner(System.in);
+//        System.out.println("Enter a guess");
+//
+//        return sc.nextLine().charAt(0);
+//    }
 
     public void guessLoop() {
         while (player1.getLives() > 0 && hiddenWord.contains('*')) {
             hit = false;
-            char guess = getGuess();
+            System.out.println(String.format("%s, enter a guess", player1.getName()));
+            char guess = UserInput.getUserChar();
             totalGuesses += ", " + guess;
             checkGuess(guess);
             checkForHit();
+            System.out.println(String.format("%d lives left", player1.getLives()));
             System.out.println(hiddenWord);
             System.out.println("Guesses: " + totalGuesses);
         }
