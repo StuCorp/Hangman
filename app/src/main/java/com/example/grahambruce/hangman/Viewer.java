@@ -17,6 +17,8 @@ public interface Viewer {
 
     public void enterGuess(Player guesser);
 
+    public void status(Player guesser, ArrayList<Character> hiddenWord, String totalGuesses);
+
     public void printHiddenWord(ArrayList<Character> hiddenWord);
 
     public void lifeLost(Player guesser);
@@ -28,7 +30,7 @@ public interface Viewer {
 
     public void livesLeft(Player guesser);
 
-    public void winOutcome();
+    public void winOutcome(ArrayList<Character> hiddenWord);
 
     public void deathOutcome();
 

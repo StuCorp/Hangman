@@ -25,4 +25,12 @@ public class Player {
     public void loseLife(){
         lives--;
     }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

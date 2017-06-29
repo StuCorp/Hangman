@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
+import static android.R.attr.name;
 import static android.R.string.yes;
 
 /**
@@ -31,8 +32,17 @@ public class Game {
         this.viewer = viewer;
     }
 
+
+    public void setNames(ArrayList<Player> players) {
+        for (Player player : players){
+            viewer.enterName(player);
+            String name = UserInput.getUserWord();
+            player.setName(name);
+        }
+    }
+
     public void askPlayerforWord() {
-        System.out.println(String.format("%s, give me a word!", wordMaster.getName()));
+        viewer.enterWord(wordMaster);
         word = UserInput.getUserWord();
         this.hiddenWord = new ArrayList<>();
         for (int i = 0; i < word.length(); i++) {
@@ -69,7 +79,21 @@ public class Game {
         }
     }
 
+
+    public void guessLoop() {
+        while (guesser.getLives() > 0 && hiddenWord.contains('*')) {
+            hit = false;
+            viewer.enterGuess(guesser);
+            char guess = UserInput.getUserChar();
+            totalGuesses += ", " + guess;
+            checkGuess(guess);
+            checkForHit();
+            viewer.status(guesser, hiddenWord, totalGuesses);
+        }
+    }
+
     public void keepGoing() {
+        viewer.keepPlaying();
         keepPlaying = UserInput.getUserBoolean();
     }
 
@@ -78,46 +102,23 @@ public class Game {
         Collections.rotate(players, 1);
         this.guesser = players.get(0);
         this.wordMaster = players.get(1);
+        this.guesser.setLives(6);
     }
 
     private void checkForDeath() {
         if (guesser.getLives() == 0) {
-            System.out.println("You are dead, mate!");
+            viewer.deathOutcome();
         } else {
-            System.out.println("You win!");
-            System.out.println("The word was:");
-            printHiddenWord();
+            viewer.winOutcome(hiddenWord);
+
         }
     }
 
-//    private char getGuess() {
-//        Scanner sc = new Scanner(System.in);
-//        System.out.println("Enter a guess");
-//
-//        return sc.nextLine().charAt(0);
-//    }
-
-    public void guessLoop() {
-        while (guesser.getLives() > 0 && hiddenWord.contains('*')) {
-            hit = false;
-            System.out.println(String.format("%s, enter a guess", guesser.getName()));
-            char guess = UserInput.getUserChar();
-            totalGuesses += ", " + guess;
-            checkGuess(guess);
-            checkForHit();
-            System.out.println(String.format("%d lives left", guesser.getLives()));
-            System.out.println(hiddenWord);
-            System.out.println("Guesses: " + totalGuesses);
-        }
-    }
-
-    private void printHiddenWord() {
-        System.out.println(hiddenWord);
-    }
 
     private void checkForHit() {
         if (hit == false) {
             guesser.loseLife();
+            viewer.lifeLost(guesser);
         }
     }
 
@@ -129,5 +130,6 @@ public class Game {
             }
         }
     }
+
 }
 

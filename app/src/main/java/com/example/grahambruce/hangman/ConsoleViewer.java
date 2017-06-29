@@ -23,8 +23,17 @@ public class ConsoleViewer implements Viewer {
         System.out.println(String.format("Please enter a guess word, Wordmaster %s", wordMaster.getName()));
     }
 
+
     public void enterGuess(Player guesser) {
         System.out.println(String.format("Please guess a letter, %s", guesser.getName()));
+
+    }
+
+
+    public void status(Player guesser, ArrayList<Character> hiddenWord, String totalGuesses){
+        livesLeft(guesser);
+        printHiddenWord(hiddenWord);
+        guessesMade(totalGuesses);
 
     }
 
@@ -37,31 +46,34 @@ public class ConsoleViewer implements Viewer {
     }
 
     public void lifeLost(Player guesser) {
-        System.out.print(String.format("Oh no! life lost, %s!", guesser.getName()));
+        System.out.println(String.format("Oh no! life lost, %s!", guesser.getName()));
     }
 
 
     public void gotAHit(Player guesser) {
-        System.out.print(String.format("Blammo, %s! Another direct hit!", guesser.getName()));
+        System.out.println(String.format("Blammo, %s! Another direct hit!", guesser.getName()));
     }
 
     public void guessesMade(String totalGuesses) {
-        System.out.print("Guesses: " + totalGuesses);
+        System.out.println("Guesses: " + totalGuesses);
     }
 
     public void livesLeft(Player guesser) {
         System.out.println(String.format("Lives left: %d", guesser.getLives()));
     }
 
-    public void winOutcome() {
+    public void winOutcome(ArrayList<Character> hiddenWord) {
+
         System.out.println("You win!");
+        System.out.println(String.format("The word was: %s", hiddenWord));
+
     }
 
     public void deathOutcome() {
-        System.out.print("Oh no! You dead!");
+        System.out.println("Oh no! You dead!");
     }
 
     public void keepPlaying(){
-        System.out.print("Play again? 'yes' or 'no'?");
+        System.out.println("Play again? 'yes' or 'no'?");
     }
 }

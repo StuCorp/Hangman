@@ -12,7 +12,7 @@ public class UserInput {
 
     public static String getUserWord(){
         Scanner sc = new Scanner(System.in);
-        System.out.println("Hey, what about a word, nerd!");
+//        System.out.println("Hey, what about a word, nerd!");
         return sc.nextLine().toLowerCase();
     }
 
@@ -25,7 +25,7 @@ public class UserInput {
 
     public static boolean getUserBoolean(){
         Scanner sc = new Scanner(System.in);
-        System.out.println("Keep going? yes or no");
+//        System.out.println("Keep going? yes or no");
         if (sc.nextLine().equals("yes")) {
             System.out.println("yes");
             return true;
