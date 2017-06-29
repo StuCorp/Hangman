@@ -14,7 +14,8 @@ public class Runner {
         Player player1 = new Player("Davie", 6);
         Player player2 = new Player("Mickb", 6);
         ArrayList<Player> players = new ArrayList<>(Arrays.asList(player1, player2));
-        Game game = new Game(players);
+        ConsoleViewer consoleViewer = new ConsoleViewer();
+        Game game = new Game(players, consoleViewer);
         game.run();
     }
 

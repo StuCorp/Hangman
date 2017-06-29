@@ -16,21 +16,23 @@ public class Game {
     String word;
     ArrayList<Character> hiddenWord;
     boolean keepPlaying;
-    Player player1;
-    Player player2;
+    Player guesser;
+    Player wordMaster;
     boolean hit;
     String totalGuesses;
+    Viewer viewer;
 
-    public Game(ArrayList<Player> players) {
-        this.player1 = players.get(0);
-        this.player2 = players.get(1);
+    public Game(ArrayList<Player> players, Viewer viewer) {
+        this.guesser = players.get(0);
+        this.wordMaster = players.get(1);
         this.players = players;
         this.keepPlaying = true;
         this.totalGuesses = "";
+        this.viewer = viewer;
     }
 
     public void askPlayerforWord() {
-        System.out.println(String.format("%s, give me a word!", player2.getName()));
+        System.out.println(String.format("%s, give me a word!", wordMaster.getName()));
         word = UserInput.getUserWord();
         this.hiddenWord = new ArrayList<>();
         for (int i = 0; i < word.length(); i++) {
@@ -74,12 +76,12 @@ public class Game {
 
     public void switchPlayers() {
         Collections.rotate(players, 1);
-        this.player1 = players.get(0);
-        this.player2 = players.get(1);
+        this.guesser = players.get(0);
+        this.wordMaster = players.get(1);
     }
 
     private void checkForDeath() {
-        if (player1.getLives() == 0) {
+        if (guesser.getLives() == 0) {
             System.out.println("You are dead, mate!");
         } else {
             System.out.println("You win!");
@@ -96,14 +98,14 @@ public class Game {
 //    }
 
     public void guessLoop() {
-        while (player1.getLives() > 0 && hiddenWord.contains('*')) {
+        while (guesser.getLives() > 0 && hiddenWord.contains('*')) {
             hit = false;
-            System.out.println(String.format("%s, enter a guess", player1.getName()));
+            System.out.println(String.format("%s, enter a guess", guesser.getName()));
             char guess = UserInput.getUserChar();
             totalGuesses += ", " + guess;
             checkGuess(guess);
             checkForHit();
-            System.out.println(String.format("%d lives left", player1.getLives()));
+            System.out.println(String.format("%d lives left", guesser.getLives()));
             System.out.println(hiddenWord);
             System.out.println("Guesses: " + totalGuesses);
         }
@@ -115,7 +117,7 @@ public class Game {
 
     private void checkForHit() {
         if (hit == false) {
-            player1.loseLife();
+            guesser.loseLife();
         }
     }
 
