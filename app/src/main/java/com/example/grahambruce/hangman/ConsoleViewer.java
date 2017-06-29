@@ -15,12 +15,12 @@ public class ConsoleViewer implements Viewer {
 
     }
 
-    public void enterName(Player player) {
-        System.out.println(String.format("Enter your name, %s", player.getClass().getSimpleName()));
+    public void enterName(Player player, int playerNum) {
+        System.out.println(String.format("Enter your name, %s %d", player.getClass().getSimpleName(), playerNum));
     }
 
     public void enterWord(Player wordMaster) {
-        System.out.println(String.format("Please enter a guess word, Wordmaster %s", wordMaster.getName()));
+        System.out.println(String.format("Ladies' choice. Please enter a guess word, Wordmaster %s", wordMaster.getName()));
     }
 
 
@@ -75,5 +75,9 @@ public class ConsoleViewer implements Viewer {
 
     public void keepPlaying(){
         System.out.println("Play again? 'yes' or 'no'?");
+    }
+
+    public void newLine(){
+        System.out.println();
     }
 }

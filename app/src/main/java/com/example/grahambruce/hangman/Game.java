@@ -33,32 +33,10 @@ public class Game {
     }
 
 
-    public void setNames(ArrayList<Player> players) {
-        for (Player player : players){
-            viewer.enterName(player);
-            String name = UserInput.getUserWord();
-            player.setName(name);
-        }
-    }
-
-    public void askPlayerforWord() {
-        viewer.enterWord(wordMaster);
-        word = UserInput.getUserWord();
-        this.hiddenWord = new ArrayList<>();
-        for (int i = 0; i < word.length(); i++) {
-            hiddenWord.add('*');
-        }
-    }
-
-    public ArrayList<Character> getHiddenWord() {
-        return hiddenWord;
-    }
-
-    public String getWord() {
-        return word;
-    }
 
     public void run() {
+        viewer.welcome();
+        setNames(players);
         while (keepPlaying) {
             askPlayerforWord();
             totalGuesses = "";
@@ -69,16 +47,6 @@ public class Game {
             keepGoing();
         }
     }
-
-    private void clearScreen() {
-        for (int manyTime = 0; manyTime < 100; manyTime++) {
-            for (int times = 0; times < 50; times++) {
-                System.out.print('*');
-            }
-            System.out.println();
-        }
-    }
-
 
     public void guessLoop() {
         while (guesser.getLives() > 0 && hiddenWord.contains('*')) {
@@ -91,6 +59,37 @@ public class Game {
             viewer.status(guesser, hiddenWord, totalGuesses);
         }
     }
+
+
+    public void setNames(ArrayList<Player> players) {
+        int playerNum = 1;
+        for (Player player : players){
+            viewer.enterName(player, playerNum);
+            String name = UserInput.getUserWord();
+            player.setName(name);
+            playerNum++;
+        }
+    }
+
+    public void askPlayerforWord() {
+        viewer.enterWord(wordMaster);
+        word = UserInput.getUserWord();
+        this.hiddenWord = new ArrayList<>();
+        for (int i = 0; i < word.length(); i++) {
+            hiddenWord.add('*');
+        }
+    }
+
+
+    private void clearScreen() {
+        for (int manyTime = 0; manyTime < 100; manyTime++) {
+            for (int times = 0; times < 50; times++) {
+                System.out.print('*');
+            }
+            System.out.println();
+        }
+    }
+
 
     public void keepGoing() {
         viewer.keepPlaying();
@@ -116,9 +115,13 @@ public class Game {
 
 
     private void checkForHit() {
+        viewer.newLine();
         if (hit == false) {
             guesser.loseLife();
             viewer.lifeLost(guesser);
+        }
+        else {
+            viewer.gotAHit(guesser);
         }
     }
 

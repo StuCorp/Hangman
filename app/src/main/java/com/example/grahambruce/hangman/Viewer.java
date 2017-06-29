@@ -11,7 +11,7 @@ public interface Viewer {
 
     public void welcome();
 
-    public void enterName(Player player);
+    public void enterName(Player player, int playerNum);
 
     public void enterWord(Player wordMaster);
 
@@ -35,6 +35,8 @@ public interface Viewer {
     public void deathOutcome();
 
     public void keepPlaying();
+
+    public void newLine();
 
 }
 
